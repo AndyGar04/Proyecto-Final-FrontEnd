@@ -72,9 +72,14 @@ export function CanchasOwner() {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
+
+        if (!clubId) return;
+
+        const cleanClubId = clubId.startsWith(':') ? clubId.slice(1) : clubId;
+
         setIsSubmitting(true);
         try {
-            await clubApi.addCancha(clubId!, modal.data);
+            await clubApi.addCancha(cleanClubId, modal.data);
             await cargarDatos();
             setModal({ open: false, modo: "add", data: initialCanchaState });
         } catch (error) {
