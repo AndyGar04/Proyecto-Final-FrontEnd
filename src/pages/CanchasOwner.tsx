@@ -72,18 +72,27 @@ export function CanchasOwner() {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
-
         if (!clubId) return;
 
         const cleanClubId = clubId.startsWith(':') ? clubId.slice(1) : clubId;
 
         setIsSubmitting(true);
         try {
-            await clubApi.addCancha(cleanClubId, modal.data);
+            const payload = {
+                nombreCancha: modal.data.nombreCancha,
+                deporte: modal.data.deporte,
+                tamanio: modal.data.tamanio,
+                descripcionTurno: modal.data.turno.descripcionTurno,
+                costo: modal.data.turno.costo,
+            };
+
+            await clubApi.addCanchaConTurno(cleanClubId, crypto.randomUUID(), payload);
+            
             await cargarDatos();
             setModal({ open: false, modo: "add", data: initialCanchaState });
         } catch (error) {
-            alert("Error al crear cancha: " + error);
+            // Si sigue fallando, este alert nos va a decir qué ID está viajando
+            alert(`Error en Club ${cleanClubId}: ${error}`);
         } finally {
             setIsSubmitting(false);
         }
