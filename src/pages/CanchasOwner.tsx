@@ -149,67 +149,71 @@ export function CanchasOwner() {
                             </div>
                         ))}
                     </div>
+                {modal.open && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                            <div className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl border border-slate-200 dark:border-gray-800">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-black text-slate-800 dark:text-white uppercase italic">Nueva Cancha</h2>
+                                    <button onClick={() => setModal({ ...modal, open: false })} className="text-slate-400 hover:text-red-500">✕</button>
+                                </div>
+
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    <input 
+                                        required
+                                        placeholder="Nombre de la cancha"
+                                        className="w-full p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl outline-none dark:text-white font-bold"
+                                        value={modal.data.nombreCancha}
+                                        onChange={e => setModal({...modal, data: {...modal.data, nombreCancha: e.target.value}})}
+                                    />
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <select 
+                                            className="p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl font-bold dark:text-white"
+                                            value={modal.data.deporte}
+                                            onChange={e => setModal({...modal, data: {...modal.data, deporte: e.target.value}})}
+                                        >
+                                            <option value="Fútbol">Fútbol</option>
+                                            <option value="Padel">Padel</option>
+                                            <option value="Tenis">Tenis</option>
+                                        </select>
+                                        <input 
+                                            required
+                                            placeholder="Tamaño (Ej: 5 vs 5)"
+                                            className="p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl font-bold dark:text-white"
+                                            value={modal.data.tamanio}
+                                            onChange={e => setModal({...modal, data: {...modal.data, tamanio: e.target.value}})}
+                                        />
+                                    </div>
+                                    <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-[2rem] space-y-4">
+                                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Turno Base</p>
+                                        <input 
+                                            required
+                                            placeholder="Descripción del turno"
+                                            className="w-full p-4 bg-white dark:bg-gray-800 rounded-xl font-bold"
+                                            value={modal.data.turno.descripcionTurno}
+                                            onChange={e => setModal({...modal, data: {...modal.data, turno: {...modal.data.turno, descripcionTurno: e.target.value}}})}
+                                        />
+                                        <input 
+                                            required
+                                            type="number"
+                                            placeholder="Precio"
+                                            className="w-full p-4 bg-white dark:bg-gray-800 rounded-xl font-black text-emerald-600 text-xl"
+                                            value={modal.data.turno.costo}
+                                            onChange={e => setModal({...modal, data: {...modal.data, turno: {...modal.data.turno, costo: Number(e.target.value)}}})}
+                                        />
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        disabled={isSubmitting}
+                                        className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-blue-700 transition-all"
+                                    >
+                                        {isSubmitting ? "GUARDANDO..." : "CONFIRMAR REGISTRO"}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
                 </main>
             </div>
-                {modal.open && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-                        <div className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl border border-slate-200 dark:border-gray-800">
-                            <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-black text-slate-800 dark:text-white uppercase italic">Nueva Cancha</h2>
-                                <button onClick={() => setModal({ ...modal, open: false })} className="text-slate-400 hover:text-red-500">✕</button>
-                            </div>
-
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <input 
-                                    placeholder="Nombre de la cancha"
-                                    className="w-full p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl outline-none dark:text-white font-bold"
-                                    value={modal.data.nombreCancha}
-                                    onChange={e => setModal({...modal, data: {...modal.data, nombreCancha: e.target.value}})}
-                                />
-                                <div className="grid grid-cols-2 gap-4">
-                                    <select 
-                                        className="p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl font-bold dark:text-white"
-                                        value={modal.data.deporte}
-                                        onChange={e => setModal({...modal, data: {...modal.data, deporte: e.target.value}})}
-                                    >
-                                        <option value="Fútbol">Fútbol</option>
-                                        <option value="Padel">Padel</option>
-                                        <option value="Tenis">Tenis</option>
-                                    </select>
-                                    <input 
-                                        placeholder="Tamaño (Ej: 5 vs 5)"
-                                        className="p-4 bg-slate-50 dark:bg-gray-800 rounded-2xl font-bold dark:text-white"
-                                        value={modal.data.tamanio}
-                                        onChange={e => setModal({...modal, data: {...modal.data, tamanio: e.target.value}})}
-                                    />
-                                </div>
-                                <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-[2rem] space-y-4">
-                                    <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Turno Base</p>
-                                    <input 
-                                        placeholder="Descripción del turno"
-                                        className="w-full p-4 bg-white dark:bg-gray-800 rounded-xl font-bold"
-                                        value={modal.data.turno.descripcionTurno}
-                                        onChange={e => setModal({...modal, data: {...modal.data, turno: {...modal.data.turno, descripcionTurno: e.target.value}}})}
-                                    />
-                                    <input 
-                                        type="number"
-                                        placeholder="Precio"
-                                        className="w-full p-4 bg-white dark:bg-gray-800 rounded-xl font-black text-emerald-600 text-xl"
-                                        value={modal.data.turno.costo}
-                                        onChange={e => setModal({...modal, data: {...modal.data, turno: {...modal.data.turno, costo: Number(e.target.value)}}})}
-                                    />
-                                </div>
-                                <button 
-                                    type="submit" 
-                                    disabled={isSubmitting}
-                                    className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-blue-700 transition-all"
-                                >
-                                    {isSubmitting ? "GUARDANDO..." : "CONFIRMAR REGISTRO"}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                )}
             <Footer />
         </div>
     );
