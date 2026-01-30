@@ -29,25 +29,7 @@ export function CanchasOwner() {
     const navigate = useNavigate();
     const [club, setClub] = useState<Club | null>(null);
     const [loading, setLoading] = useState(true);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [modal, setModal] = useState<ModalState>({ open: false, modo: "add", data: initialCanchaState });
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!clubId) return;
-        
-        setIsSubmitting(true);
-        try {
-            await clubApi.addCancha(clubId, modal.data);
-            setModal({ ...modal, open: false });
-            cargarDatos(); // Recargamos la lista
-        } catch (error) {
-            console.error("Error al guardar:", error);
-            alert("No se pudo guardar la cancha");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+    const [, setModal] = useState<ModalState>({ open: false, modo: "add", data: initialCanchaState });
 
     const cargarDatos = async () => {
         if (!clubId) return;
@@ -59,31 +41,6 @@ export function CanchasOwner() {
         } finally { 
             setLoading(false); 
         }
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setModal(prev => ({
-            ...prev,
-            data: {
-                ...prev.data,
-                [name]: value
-            }
-        }));
-    };
-
-    const handleTurnoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setModal(prev => ({
-            ...prev,
-            data: {
-                ...prev.data,
-                turno: {
-                    ...prev.data.turno,
-                    [name]: name === 'costo' ? Number(value) : value
-                }
-            }
-        }));
     };
 
     useEffect(() => { cargarDatos(); }, [clubId]);
@@ -132,12 +89,8 @@ export function CanchasOwner() {
                             </h1>
                         </div>
                         <button 
-                            onClick={() => setModal({ 
-                                open: true, 
-                                modo: "add", 
-                                data: { ...initialCanchaState, id: crypto.randomUUID() } 
-                            })}
-                            className="bg-slate-900 dark:bg-blue-600 ... (resto de clases)"
+                            onClick={() => setModal({ open: true, modo: "add", data: initialCanchaState })}
+                            className="bg-slate-900 dark:bg-blue-600 hover:scale-105 active:scale-95 text-white px-8 py-4 rounded-2xl shadow-xl transition-all flex items-center gap-3 font-bold uppercase text-xs tracking-widest"
                         >
                             <Plus size={24} /> Nueva Cancha
                         </button>
@@ -180,53 +133,6 @@ export function CanchasOwner() {
                             </div>
                         ))}
                     </div>
-
-                    {/* Modal: Nueva Cancha */}
-                    {modal.open && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full max-w-xl p-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-xl font-bold">Agregar Cancha</h2>
-                                    <button onClick={() => setModal({ open: false, modo: 'add', data: initialCanchaState })} className="text-slate-400 hover:text-slate-600">✕</button>
-                                </div>
-                                <form onSubmit={handleSubmit} className="space-y-4">
-                                    <div>
-                                        <label className="text-xs font-bold uppercase text-slate-500">Nombre</label>
-                                        <input name="nombreCancha" value={modal.data.nombreCancha} onChange={handleInputChange} className="w-full mt-1 p-3 rounded-lg bg-slate-50 dark:bg-gray-800 border" />
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="text-xs font-bold uppercase text-slate-500">Deporte</label>
-                                            <select name="deporte" value={modal.data.deporte} onChange={handleInputChange} className="w-full mt-1 p-3 rounded-lg bg-slate-50 dark:bg-gray-800 border">
-                                                <option>Fútbol</option>
-                                                <option>Tenis</option>
-                                                <option>Padel</option>
-                                            </select>
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="text-xs font-bold uppercase text-slate-500">Tamaño</label>
-                                            <input name="tamanio" value={modal.data.tamanio} onChange={handleInputChange} className="w-full mt-1 p-3 rounded-lg bg-slate-50 dark:bg-gray-800 border" />
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-slate-50 dark:bg-gray-800 p-4 rounded-lg border">
-                                        <p className="text-xs font-black text-slate-400 uppercase mb-2">Turno base</p>
-                                        <div className="flex gap-3">
-                                            <input name="descripcionTurno" value={modal.data.turno?.descripcionTurno} onChange={handleTurnoChange} className="flex-1 p-3 rounded-lg bg-white dark:bg-gray-700 border" />
-                                            <input name="costo" type="number" value={modal.data.turno?.costo} onChange={handleTurnoChange} className="w-32 p-3 rounded-lg bg-white dark:bg-gray-700 border" />
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-end gap-3">
-                                        <button type="button" onClick={() => setModal({ open: false, modo: 'add', data: initialCanchaState })} className="px-5 py-3 rounded-lg bg-slate-200 dark:bg-gray-800">Cancelar</button>
-                                        <button type="submit" disabled={isSubmitting} className="px-6 py-3 rounded-lg bg-blue-600 text-white font-bold disabled:opacity-60">
-                                            {isSubmitting ? 'Guardando...' : 'Guardar Cancha'}
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
                 </main>
             </div>
             <Footer />
