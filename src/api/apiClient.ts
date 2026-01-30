@@ -1,6 +1,6 @@
 import { authApi } from "./authApi";
 
-const API_URL = 'http://localhost:3000'; // Asegúrate que este sea el puerto de tu backend
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export const apiClient = async (endpoint: string, options: RequestInit = {}) => {
   const token = authApi.getToken();
