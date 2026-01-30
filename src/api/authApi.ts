@@ -19,7 +19,7 @@ export interface LoginResponse {
 
 export const authApi = {
   register: async (payload: { nombre: string; email: string; password: string }) => {
-    const response = await fetch(`${API_URL}/auth/register`, {
+    const response = await fetch(`${API_URL}auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
