@@ -132,8 +132,12 @@ export function CanchasOwner() {
                             </h1>
                         </div>
                         <button 
-                            onClick={() => setModal({ open: true, modo: "add", data: initialCanchaState })}
-                            className="bg-slate-900 dark:bg-blue-600 hover:scale-105 active:scale-95 text-white px-8 py-4 rounded-2xl shadow-xl transition-all flex items-center gap-3 font-bold uppercase text-xs tracking-widest"
+                            onClick={() => setModal({ 
+                                open: true, 
+                                modo: "add", 
+                                data: { ...initialCanchaState, id: crypto.randomUUID() } 
+                            })}
+                            className="bg-slate-900 dark:bg-blue-600 ... (resto de clases)"
                         >
                             <Plus size={24} /> Nueva Cancha
                         </button>
