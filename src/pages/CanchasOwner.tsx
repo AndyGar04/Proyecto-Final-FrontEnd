@@ -7,7 +7,7 @@ import {
     Trophy, Users, 
     Activity, ChevronRight, CircleDot
 } from "lucide-react";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { clubApi, type Club, type Cancha } from "../api/clubApi";
 
 interface ModalState {
