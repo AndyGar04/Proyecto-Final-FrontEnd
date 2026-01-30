@@ -11,6 +11,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { turnoApi } from "../api/turnoApi";
 import { type Turno, type Horario } from "../api/clubApi";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/';
+
 export default function HorariosOwner() {
     const { turnoId } = useParams<{ turnoId: string }>(); // Recibe el ID del turno de la cancha
     const navigate = useNavigate();
@@ -42,7 +44,7 @@ export default function HorariosOwner() {
         if (!turnoId) return;
         setIsProcessing(true);
         try {
-            const res = await fetch(`http://localhost:3000/horario/${h.id}`, {
+            const res = await fetch(`${API_URL}horario/${h.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

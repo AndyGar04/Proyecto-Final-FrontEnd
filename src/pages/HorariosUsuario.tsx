@@ -6,6 +6,8 @@ import { Footer } from "../components/layout/Footer";
 import { Clock, Calendar, ArrowLeft, MessageCircle, Filter, X } from "lucide-react";
 import { clubApi } from "../api/clubApi";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/';
+
 interface Horario {
   id: string;
   disponibilidad: boolean;
@@ -66,7 +68,7 @@ export default function HorariosUsuario() {
         setLoading(true);
         
         const [resHorarios, resClubs] = await Promise.all([
-          fetch("http://localhost:3000/horario"),
+          fetch(`${API_URL}horario`),
           clubApi.getAll()
         ]);
 
@@ -90,11 +92,9 @@ export default function HorariosUsuario() {
     fetchData();
   }, []);
 
-  // logica filtrado
   const horariosFiltrados = useMemo(() => {
     let filtrados = horarios;
 
-    // NUEVO: Filtramos para que solo aparezcan los horarios de este turno
     if (turnoId) {
       filtrados = filtrados.filter(h => h.idTurno === turnoId);
     }
@@ -105,7 +105,6 @@ export default function HorariosUsuario() {
       );
     }
 
-    // Ordenar por hora
     return filtrados.sort((a, b) => a.horario.localeCompare(b.horario));
   }, [horarios, filtroFecha, turnoId]);
 
