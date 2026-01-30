@@ -29,8 +29,7 @@ export function CanchasOwner() {
     const navigate = useNavigate();
     const [club, setClub] = useState<Club | null>(null);
     const [loading, setLoading] = useState(true);
-    const [setIsSubmitting] = useState(false);
-    const [modal, setModal] = useState<ModalState>({ open: false, modo: "add", data: initialCanchaState });
+    const [, setModal] = useState<ModalState>({ open: false, modo: "add", data: initialCanchaState });
 
     const cargarDatos = async () => {
         if (!clubId) return;
@@ -45,29 +44,6 @@ export function CanchasOwner() {
     };
 
     useEffect(() => { cargarDatos(); }, [clubId]);
-
-    const guardarCancha = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!clubId) return;
-        setIsSubmitting(true);
-        try {
-            const payload = {
-                nombreCancha: modal.data.nombreCancha,
-                deporte: modal.data.deporte,
-                tamanio: modal.data.tamanio,
-                descripcionTurno: modal.data.turno.descripcionTurno,
-                costo: modal.data.turno.costo,
-            };
-            // Usamos el ID generado o "0" según tu lógica de backend
-            await clubApi.addCanchaConTurno(clubId, "0", payload); 
-            await cargarDatos();
-            setModal({ open: false, modo: "add", data: initialCanchaState });
-        } catch (error) { 
-            alert("Error al crear cancha: " + error); 
-        } finally { 
-            setIsSubmitting(false); 
-        }
-    };
 
     const eliminarCancha = async (id: string) => {
         if (!window.confirm("¿Eliminar esta cancha y todos sus horarios?")) return;
