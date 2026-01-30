@@ -3,8 +3,8 @@ import { Navbar } from "../components/layout/Navbar";
 import { Sidebar } from "../components/layout/Sidebar";
 import { Footer } from "../components/layout/Footer";
 import { 
-    Trash2, Plus, ArrowLeft, Loader2, Save, X, 
-    Trophy, Banknote, Users, 
+    Trash2, Plus, ArrowLeft, Loader2,
+    Trophy, Users, 
     Activity, ChevronRight, CircleDot
 } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -29,7 +29,7 @@ export function CanchasOwner() {
     const navigate = useNavigate();
     const [club, setClub] = useState<Club | null>(null);
     const [loading, setLoading] = useState(true);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [setIsSubmitting] = useState(false);
     const [modal, setModal] = useState<ModalState>({ open: false, modo: "add", data: initialCanchaState });
 
     const cargarDatos = async () => {

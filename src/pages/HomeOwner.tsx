@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Navbar } from '../components/layout/Navbar';
 import { Sidebar } from '../components/layout/Sidebar';
 import { Footer } from '../components/layout/Footer';
 import { 
-    Building2, MapPin, Phone, 
-    LayoutGrid, Star, Trophy, 
+    Building2, MapPin, Phone, Star, 
     ExternalLink, Loader2, Search 
 } from 'lucide-react';
 import { clubApi, type Club } from '../api/clubApi';

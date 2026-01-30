@@ -4,8 +4,8 @@ import { Footer } from "../components/layout/Footer";
 import { 
     ArrowLeft, Calendar, Clock, Trash2, Zap, 
     Filter, X, Plus, CalendarDays, Info, 
-    CheckCircle2, AlertCircle, Loader2, Save,
-    MessageSquare, RefreshCw, ToggleLeft, ToggleRight
+    CheckCircle2, Loader2, Save,
+    MessageSquare, RefreshCw
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { turnoApi } from "../api/turnoApi";
